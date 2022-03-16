@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ReactPlayer from "react-player";
 import { useLocation } from "react-router-dom";
 import { useResultContext } from "../contexts/ResultContextProvider";
 import Loading from "./Loading";
@@ -40,20 +41,18 @@ function Results() {
     case "/images":
       return (
         <section className="flex flex-wrap justify-center items-center">
-          {results?.map(
-            ({ image, link: { href, title } }, index) => (
-              <a
-                className="sm:p-3 p-5"
-                href={href}
-                key={image?.src || index}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={image?.src} alt={title || ""} loading="lazy" />
-                <p className="w-46 break-words text-sm mt-2">{title}</p>
-              </a>
-            )
-          )}
+          {results?.map(({ image, link: { href, title } }, index) => (
+            <a
+              className="sm:p-3 p-5"
+              href={href}
+              key={image?.src || index}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={image?.src} alt={title || ""} loading="lazy" />
+              <p className="w-46 break-words text-sm mt-2">{title}</p>
+            </a>
+          ))}
         </section>
       );
     case "/news":
@@ -81,7 +80,20 @@ function Results() {
         </section>
       );
     case "/videos":
-      return "SEARCH";
+      return (
+        <section className="flex flex-wrap">
+          {results?.map(({ additional_links }) => (
+            <div className="p-2" key={additional_links[0].href}>
+              <ReactPlayer
+                url={additional_links[0].href}
+                controls
+                width="355px"
+                height="200px"
+              />
+            </div>
+          ))}
+        </section>
+      );
     default:
       return "Error";
   }
