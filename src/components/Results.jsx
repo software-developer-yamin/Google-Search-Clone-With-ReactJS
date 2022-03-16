@@ -7,20 +7,21 @@ import Loading from "./Loading";
 function Results() {
   const { getResults, results, searchTerm, isLoading } = useResultContext();
   const location = useLocation();
+  const pathName = location.pathname;
 
   useEffect(() => {
     if (searchTerm) {
-      if (location.pathname === "/videos") {
+      if (pathName === "/videos") {
         getResults(`/search/q=${searchTerm} videos`);
       } else {
-        getResults(`${location.pathname}/q=${searchTerm}&num=40`);
+        getResults(`${pathName}/q=${searchTerm}&num=40`);
       }
     }
-  }, [searchTerm, location.pathname]);
+  }, [searchTerm, pathName]);
 
   if (isLoading) return <Loading />;
 
-  switch (location.pathname) {
+  switch (pathName) {
     case "/search":
       return (
         <section className="flex flex-wrap justify-between sm:px-56 space-y-6 items-center">
@@ -81,12 +82,15 @@ function Results() {
       );
     case "/videos":
       return (
-        <section className="flex flex-wrap justify-center items-center">
-          {results?.map(({ additional_links }) => (
-            <div className="p-2" key={additional_links[0].href}>
-              {additional_links[0].href && (
+        <section
+          className="flex flex-wrap justify-center items-center"
+          activeVideo
+        >
+          {results?.map((video) => (
+            <div className="p-2" key={video?.additional_links[0].href}>
+              {video?.additional_links[0].href && (
                 <ReactPlayer
-                  url={additional_links[0].href}
+                  url={video?.additional_links[0].href}
                   controls
                   width="355px"
                   height="200px"
