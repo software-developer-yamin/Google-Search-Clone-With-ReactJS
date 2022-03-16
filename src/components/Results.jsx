@@ -23,7 +23,7 @@ function Results() {
   switch (location.pathname) {
     case "/search":
       return (
-        <section className="flex flex-wrap justify-between sm:px-56 space-y-6">
+        <section className="flex flex-wrap justify-between sm:px-56 space-y-6 items-center">
           {results?.map(({ title, link }) => (
             <div key={link} className="md:w-2/5 w-full">
               <a href={link} target="_blank" rel="noreferrer">
@@ -69,27 +69,29 @@ function Results() {
                 <p className="text-lg dark:text-blue-300 text-blue-700">
                   {title}
                 </p>
-                <div className="flex gap-4">
-                  <a href={source?.href} target="_blank" rel="noreferrer">
-                    {source?.href}
-                  </a>
-                </div>
               </a>
+              <div className="flex gap-4">
+                <a href={source?.href} target="_blank" rel="noreferrer">
+                  {source?.href}
+                </a>
+              </div>
             </div>
           ))}
         </section>
       );
     case "/videos":
       return (
-        <section className="flex flex-wrap">
+        <section className="flex flex-wrap justify-center items-center">
           {results?.map(({ additional_links }) => (
             <div className="p-2" key={additional_links[0].href}>
-              <ReactPlayer
-                url={additional_links[0].href}
-                controls
-                width="355px"
-                height="200px"
-              />
+              {additional_links[0].href && (
+                <ReactPlayer
+                  url={additional_links[0].href}
+                  controls
+                  width="355px"
+                  height="200px"
+                />
+              )}
             </div>
           ))}
         </section>
