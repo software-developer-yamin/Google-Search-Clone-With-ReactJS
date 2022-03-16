@@ -12,7 +12,7 @@ function Redirect({ to }) {
 
 function Router() {
   return (
-    <section className="p-4">
+    <main className="p-4">
       <Routes>
         <Route path="/" element={<Redirect to="/search" />} />
         <Route path="search" element={<Results />} />
@@ -20,7 +20,7 @@ function Router() {
         <Route path="news" element={<Results />} />
         <Route path="videos" element={<Results />} />
       </Routes>
-    </section>
+    </main>
   );
 }
 
